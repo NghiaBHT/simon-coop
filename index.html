@@ -241,6 +241,14 @@
     font-size: 15px; font-weight: 600; height: 34px; border-radius: 7px; cursor: pointer; font-variant-numeric: tabular-nums;
   }
   .seg button.on { background: #636366; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* Solo: one centred board, no co-op chrome */
+  .solo .duo { grid-template-columns: 1fr; max-width: min(340px, 52vh); }
+  .solo .side, .solo .side.active { --c: var(--text); background: none; border-color: transparent; box-shadow: none; padding: 0; }
+  .solo .side.p1, .solo .pl, .solo .dots, .solo .coop-only { display: none; }
+  .solo .board { max-width: none; }
+
   .seg-note { font-size: 13px; color: var(--text2); margin: -12px 4px 20px; line-height: 1.4; }
   .guest-note { display: none; font-size: 13px; color: var(--yellow); margin: 0 4px 14px; }
   .ro .guest-note { display: block; }
@@ -276,7 +284,10 @@
     </div>
 
     <div class="or">hoặc</div>
-    <button class="primary ghost" id="localBtn">Chơi chung một máy</button>
+    <div class="pair">
+      <button class="primary ghost" id="soloBtn">Chơi đơn</button>
+      <button class="primary ghost" id="localBtn">2 người 1 máy</button>
+    </div>
 
     <div class="lobby-msg" id="lobbyMsg"></div>
   </section>
@@ -314,8 +325,8 @@
 
     <div class="stats">
       <div class="stat"><div class="k">Level</div><div class="v" id="level">–</div></div>
-      <div class="stat"><div class="k">Điểm đội</div><div class="v" id="score">0</div></div>
-      <div class="stat"><div class="k">Kỷ lục đội</div><div class="v accent" id="best">0</div></div>
+      <div class="stat"><div class="k" id="scoreK">Điểm đội</div><div class="v" id="score">0</div></div>
+      <div class="stat"><div class="k" id="bestK">Kỷ lục đội</div><div class="v accent" id="best">0</div></div>
     </div>
     <div class="meta" id="modeTag"></div>
 
@@ -353,12 +364,14 @@
     <div class="guest-note">Chủ phòng chỉnh kiểu chơi, tốc độ và chế độ khó.</div>
 
     <div class="host-only">
+      <div class="coop-only">
       <div class="section-lbl">Kiểu xen kẽ</div>
       <div class="seg two" id="modeSeg">
         <button data-mode="step">Từng bước</button>
         <button data-mode="round">Từng lượt</button>
       </div>
       <div class="seg-note" id="modeNote"></div>
+      </div>
 
       <div class="section-lbl">Tốc độ</div>
       <div class="seg" id="speedSeg">
@@ -370,7 +383,7 @@
 
     <div class="group">
       <div class="row host-only">
-        <div>Chế độ khó<div class="sub">Sai một lần là cả đội thua</div></div>
+        <div>Chế độ khó<div class="sub">Sai một lần là thua ngay</div></div>
         <label class="switch"><input type="checkbox" id="strict"><span></span></label>
       </div>
       <div class="row">
@@ -431,7 +444,11 @@
   let names = ['Người 1', 'Người 2'];
   let cfg = { mode: 'step', speed: 1, strict: false };
   let G = blankGame();        // phase: idle | showing | input | wait | over
-  let best = parseInt(store.get('simon_coop_best') || '0', 10) || 0;
+  // Solo keeps its own record (same key as the original single-player game); co-op records are per team
+  const bestKey = () => net.mode === 'solo' ? 'simon_best' : 'simon_coop_best';
+  const loadBest = () => { best = parseInt(store.get(bestKey()) || '0', 10) || 0; };
+  const saveBest = () => store.set(bestKey(), String(best));
+  let best = 0;
   let runId = 0, hostGen = 0, gameStarter = 1;
   let screen = 'lobby';
   const optimistic = new Set();
@@ -443,8 +460,8 @@
   const soundEl = $('sound');
   if (store.get('simon_sound') === '0') soundEl.checked = false;
 
-  const isHostLike = () => net.mode === 'host' || net.mode === 'local';
-  const owner = i => cfg.mode === 'step' ? (G.starter + i) % 2 : G.starter;
+  const isHostLike = () => net.mode === 'host' || net.mode === 'local' || net.mode === 'solo';
+  const owner = i => net.mode === 'solo' ? 0 : cfg.mode === 'step' ? (G.starter + i) % 2 : G.starter;
   const who = i => (net.mode !== 'local' && i === me) ? 'Bạn' : (names[i] || 'Người ' + (i + 1));
   const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -479,12 +496,12 @@
   function show(s) {
     screen = s;
     ['lobby', 'wait', 'game'].forEach(n => $(n + 'Screen').hidden = n !== s);
-    app.classList.toggle('wide', s === 'game');
+    app.classList.toggle('wide', s === 'game' && net.mode !== 'solo');
     if (s !== 'game') closeSheet();
   }
   function setMsg(text, cls = '') { msgEl.className = 'status ' + cls; msgEl.textContent = text; }
   function lobbyMsg(text, bad = false) { const el = $('lobbyMsg'); el.textContent = text; el.classList.toggle('bad', bad); }
-  function setLobbyBusy(on) { ['createBtn', 'joinBtn', 'localBtn'].forEach(id => $(id).disabled = on); }
+  function setLobbyBusy(on) { ['createBtn', 'joinBtn', 'localBtn', 'soloBtn'].forEach(id => $(id).disabled = on); }
   let toastT;
   function toast(text) {
     const t = $('toast'); t.textContent = text; t.classList.add('show');
@@ -516,8 +533,14 @@
       if (net.mode !== 'local' && i === me) label += ' (bạn)';
       sides[i].name.textContent = label;
     }
-    $('roomTag').textContent = net.mode === 'local' ? 'Cùng máy' : 'Phòng ' + net.code;
-    $('hint').innerHTML = net.mode === 'local'
+    const solo = net.mode === 'solo';
+    app.classList.toggle('solo', solo);
+    $('roomTag').textContent = solo ? 'Chơi đơn' : net.mode === 'local' ? 'Cùng máy' : 'Phòng ' + net.code;
+    $('scoreK').textContent = solo ? 'Điểm' : 'Điểm đội';
+    $('bestK').textContent = solo ? 'Kỷ lục' : 'Kỷ lục đội';
+    $('hint').innerHTML = solo
+      ? `<kbd>↑</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>↓</kbd> hoặc <kbd>WASD</kbd> bấm pad · <kbd>Space</kbd> bắt đầu · <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> tốc độ`
+      : net.mode === 'local'
       ? `${esc(names[0])}: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> · ${esc(names[1])}: <kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> · <kbd>Space</kbd> bắt đầu`
       : `<kbd>↑</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>↓</kbd> hoặc <kbd>WASD</kbd> bấm pad` + (isHostLike() ? ' · <kbd>Space</kbd> bắt đầu' : '');
   }
@@ -539,7 +562,8 @@
     if (G.phase !== 'input') return;
     const o = owner(G.idx);
     const mine = net.mode === 'local' || o === me;
-    if (net.mode === 'local') setMsg(`Lượt của ${names[o]}`, 'p' + o);
+    if (net.mode === 'solo') setMsg('Đến lượt bạn', 'go');
+    else if (net.mode === 'local') setMsg(`Lượt của ${names[o]}`, 'p' + o);
     else setMsg(mine ? 'Đến lượt bạn' : `${names[o]} đang bấm…`, 'p' + o);
   }
   function renderControls() {
@@ -561,7 +585,7 @@
     $('strict').checked = cfg.strict;
     $('modeNote').textContent = MODE_NOTE[cfg.mode];
     app.classList.toggle('ro', net.mode === 'guest');
-    $('modeTag').textContent = (cfg.mode === 'step' ? 'Xen kẽ từng bước' : 'Xen kẽ từng lượt')
+    $('modeTag').textContent = (net.mode === 'solo' ? 'Chơi đơn' : cfg.mode === 'step' ? 'Xen kẽ từng bước' : 'Xen kẽ từng lượt')
       + ` · ${cfg.speed.toFixed(1)}×` + (cfg.strict ? ' · Khó' : '');
   }
   function resetGame() {
@@ -635,10 +659,11 @@
   function gameOverUI(ev) {
     G.phase = 'over'; runId++;
     $('score').textContent = ev.score;
-    if (ev.best > best) { best = ev.best; store.set('simon_coop_best', String(best)); }
+    if (ev.best > best) { best = ev.best; saveBest(); }
     $('best').textContent = best;
-    if (ev.newBest) setMsg(`Kỷ lục đội mới · ${ev.score} bước`, 'ok');
-    else setMsg(`Kết thúc · ${ev.score} bước · ${who(ev.by)} bấm nhầm`, 'bad');
+    const solo = net.mode === 'solo';
+    if (ev.newBest) setMsg(`Kỷ lục${solo ? '' : ' đội'} mới · ${ev.score} bước`, 'ok');
+    else setMsg(`Kết thúc · ${ev.score} bước` + (solo ? '' : ` · ${who(ev.by)} bấm nhầm`), 'bad');
     renderBoards(); renderDots(); renderControls();
     const my = runId;
     (async () => {               // replay the correct sequence once
@@ -681,7 +706,7 @@
       } else {
         const score = G.seq.length - 1;
         const newBest = score > best;
-        if (newBest) { best = score; store.set('simon_coop_best', String(best)); }
+        if (newBest) { best = score; saveBest(); }
         emit({ t: 'over', score, best, newBest, by });
       }
     } else if (i + 1 === G.seq.length) {
@@ -712,7 +737,7 @@
     }
     if (player !== me) { toast(`Đây là bảng của ${names[player]}`); return; }
     if (o !== me) { toast(`Chờ ${names[o]} bấm`); return; }
-    if (net.mode === 'host') { hostInput(dir, me); return; }
+    if (net.mode === 'host' || net.mode === 'solo') { hostInput(dir, me); return; }
     // guest: show the press instantly, the host confirms it
     const i = G.idx, ok = dir === G.seq[i];
     optimistic.add(i); flash(dir, 220, me);
@@ -770,7 +795,7 @@
     audio(); teardown();
     const code = genCode();
     const peer = new Peer(PEER_PREFIX + code, { debug: 0 });
-    net = blankNet(); net.mode = 'host'; net.peer = peer; net.code = code;
+    net = blankNet(); net.mode = 'host'; net.peer = peer; net.code = code; loadBest();
     me = 0; names = [myName() || 'Người 1', ''];
     setLobbyBusy(true); lobbyMsg('Đang tạo phòng…');
     peer.on('open', () => {
@@ -807,7 +832,7 @@
     if (code.length !== CODE_LEN) { lobbyMsg('Mã phòng gồm 5 ký tự.', true); $('codeInput').focus(); return; }
     audio(); teardown();
     const peer = new Peer({ debug: 0 });
-    net = blankNet(); net.mode = 'guest'; net.peer = peer; net.code = code;
+    net = blankNet(); net.mode = 'guest'; net.peer = peer; net.code = code; loadBest();
     me = 1;
     setLobbyBusy(true); lobbyMsg(`Đang vào phòng ${code}…`);
     const fail = text => {
@@ -848,7 +873,7 @@
       if (d.t === 'hello') {
         names[1] = String(d.name || 'Người 2').slice(0, 12);
         const gb = parseInt(d.best, 10) || 0;
-        if (gb > best) { best = gb; store.set('simon_coop_best', String(best)); }
+        if (gb > best) { best = gb; saveBest(); }
         resetGame(); show('game');
         send({ t: 'welcome', names, cfg, best });
         toast(`${names[1]} đã vào phòng`);
@@ -860,7 +885,7 @@
         net.welcomed = true;
         names = [String(d.names[0] || 'Người 1').slice(0, 12), String(d.names[1] || 'Người 2').slice(0, 12)];
         cfg = d.cfg;
-        if (d.best > best) { best = d.best; store.set('simon_coop_best', String(best)); }
+        if (d.best > best) { best = d.best; saveBest(); }
         resetGame(); show('game'); setLobbyBusy(false); lobbyMsg('');
         history.replaceState(null, '', location.pathname + location.search + '#' + net.code);
       } else if (d.t === 'full') {
@@ -905,8 +930,14 @@
 
   function startLocal() {
     teardown(); audio();
-    net.mode = 'local'; me = 0;
+    net.mode = 'local'; me = 0; loadBest();
     names = [myName() || 'Người 1', 'Người 2'];
+    resetGame(); show('game');
+  }
+  function startSolo() {
+    teardown(); audio();
+    net.mode = 'solo'; me = 0; loadBest();
+    names = [myName() || 'Bạn', ''];
     resetGame(); show('game');
   }
 
@@ -941,6 +972,7 @@
   $('createBtn').addEventListener('click', () => createRoom());
   $('joinBtn').addEventListener('click', joinRoom);
   $('localBtn').addEventListener('click', startLocal);
+  $('soloBtn').addEventListener('click', startSolo);
   $('cancelBtn').addEventListener('click', leave);
   $('leaveBtn').addEventListener('click', e => { e.currentTarget.blur(); leave(); });
   $('shareBtn').addEventListener('click', shareLink);
