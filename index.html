@@ -102,17 +102,11 @@
   .spin { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--sep); border-top-color: var(--text); animation: spin .8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Players */
-  .players { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
-  .pl {
-    display: flex; align-items: center; gap: 8px; min-width: 0;
-    background: var(--card); border-radius: 12px; padding: 0 12px; height: 40px;
-    font-size: 15px; font-weight: 600; border: 1.5px solid transparent;
-    transition: border-color .15s, background .15s;
+  /* Wider layout while playing so the two boards fit side by side */
+  .app.wide { max-width: 760px; }
+  @media (max-width: 480px) {
+    .app.wide { padding-left: calc(env(safe-area-inset-left) + 12px); padding-right: calc(env(safe-area-inset-right) + 12px); }
   }
-  .pl span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .pl i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
-  .pl.active { border-color: var(--c); background: color-mix(in srgb, var(--c) 16%, var(--card)); }
 
   /* Stats */
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--card); border-radius: 14px; margin-top: 10px; }
@@ -128,44 +122,63 @@
   .status.ok { color: var(--green); } .status.bad { color: var(--red); } .status.go { color: var(--text); }
   .status.p0 { color: var(--p0); } .status.p1 { color: var(--p1); }
 
-  /* Board */
+  /* Two boards side by side */
   .stage { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: min(720px, 118vh); }
+  .side {
+    --c: var(--p0);
+    display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0;
+    background: #0e0e10; border: 1.5px solid var(--card2); border-radius: 22px; padding: 10px 8px 12px;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+  }
+  .side.p1 { --c: var(--p1); }
+  .side.active { border-color: var(--c); box-shadow: 0 0 28px -10px var(--c); background: color-mix(in srgb, var(--c) 7%, #0e0e10); }
+  .pl {
+    display: flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; max-width: 100%;
+    height: 30px; padding: 0 12px; border-radius: 999px; background: var(--card);
+    font-size: 14px; font-weight: 600; transition: background .2s, color .2s;
+  }
+  .pl span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pl i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: none; }
+  .side.active .pl { background: var(--c); color: #000; }
+  .side.active .pl i { background: #000; }
   .board {
+    container-type: inline-size;
     display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
-    gap: 10px; width: min(330px, 86vw, 44vh); aspect-ratio: 1;
+    gap: 5%; width: 100%; max-width: min(320px, 52vh); aspect-ratio: 1;
   }
   .pad {
-    border: none; border-radius: 26px; cursor: pointer; padding: 0;
+    border: none; border-radius: 26%; cursor: pointer; padding: 0;
     display: grid; place-items: center;
     opacity: .28; transition: opacity .1s, transform .1s, box-shadow .1s;
   }
+  .board.idle .pad { cursor: default; }
+  .side.dim .pad { opacity: .1; }
   .pad svg { width: 38%; height: 38%; color: rgba(0,0,0,.55); }
   .pad.up    { grid-area: 1 / 2; background: var(--up); }
   .pad.left  { grid-area: 2 / 1; background: var(--left); }
   .pad.right { grid-area: 2 / 3; background: var(--right); }
   .pad.down  { grid-area: 3 / 2; background: var(--down); }
-  .board.theirs .pad { opacity: .12; }
-  .pad.lit, .board.theirs .pad.lit { opacity: 1; transform: scale(1.04); }
-  .pad.up.lit    { box-shadow: 0 0 36px -4px var(--up); }
-  .pad.left.lit  { box-shadow: 0 0 36px -4px var(--left); }
-  .pad.right.lit { box-shadow: 0 0 36px -4px var(--right); }
-  .pad.down.lit  { box-shadow: 0 0 36px -4px var(--down); }
-  .board.locked .pad { cursor: default; }
-  .board.shake { animation: shake .4s; }
-  @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-8px)} 40%,80%{transform:translateX(8px)} }
+  .pad.lit, .side.dim .pad.lit { opacity: 1; transform: scale(1.05); }
+  .pad.up.lit    { box-shadow: 0 0 30px -4px var(--up); }
+  .pad.left.lit  { box-shadow: 0 0 30px -4px var(--left); }
+  .pad.right.lit { box-shadow: 0 0 30px -4px var(--right); }
+  .pad.down.lit  { box-shadow: 0 0 30px -4px var(--down); }
+  .side.shake { animation: shake .4s; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-7px)} 40%,80%{transform:translateX(7px)} }
 
   .hub { grid-area: 2 / 2; position: relative; display: grid; place-items: center; }
-  .hub svg.ring { position: absolute; inset: 4%; width: 92%; height: 92%; transform: rotate(-90deg); }
+  .hub svg.ring { position: absolute; inset: 2%; width: 96%; height: 96%; transform: rotate(-90deg); }
   .ring .track { stroke: var(--card2); }
-  .ring .bar { stroke: var(--turn, var(--text)); transition: stroke-dashoffset .15s ease-out, stroke .2s; }
+  .ring .bar { stroke: var(--c); transition: stroke-dashoffset .15s ease-out, stroke .2s; }
   .ring.done .bar { stroke: var(--green); }
-  .hub .inner { text-align: center; line-height: 1.1; }
-  .hub .count { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .hub .count small { font-size: 14px; color: var(--text2); font-weight: 600; }
-  .hub .lbl { font-size: 11px; color: var(--text2); margin-top: 3px; }
+  .hub .inner { text-align: center; line-height: 1.05; }
+  .hub .count { font-size: max(12px, 6.6cqw); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .hub .count small { font-size: .65em; color: var(--text2); font-weight: 600; }
+  .hub .lbl { font-size: max(9px, 3.3cqw); color: var(--text2); margin-top: 2px; }
 
   /* Step owner dots */
-  .dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; width: min(330px, 86vw, 44vh); margin-top: 18px; min-height: 10px; }
+  .dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; width: 100%; max-width: 420px; margin-top: 16px; min-height: 10px; }
   .dots i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--c); transition: background .15s, transform .15s; }
   .dots i.p0 { --c: var(--p0); } .dots i.p1 { --c: var(--p1); }
   .dots i.done, .dots i.cur { background: var(--c); }
@@ -299,11 +312,6 @@
       </div>
     </header>
 
-    <div class="players">
-      <div class="pl" id="pl0" style="--c:var(--p0)"><i></i><span id="pn0"></span></div>
-      <div class="pl" id="pl1" style="--c:var(--p1)"><i></i><span id="pn1"></span></div>
-    </div>
-
     <div class="stats">
       <div class="stat"><div class="k">Level</div><div class="v" id="level">–</div></div>
       <div class="stat"><div class="k">Điểm đội</div><div class="v" id="score">0</div></div>
@@ -314,18 +322,24 @@
     <div class="status" id="msg"></div>
 
     <div class="stage">
-      <div class="board locked" id="board">
-        <button class="pad up" data-dir="up" aria-label="Lên"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 15 12 8 19 15"/></svg></button>
-        <button class="pad left" data-dir="left" aria-label="Trái"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 5 8 12 15 19"/></svg></button>
-        <div class="hub">
-          <svg class="ring" id="ring" viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="44" fill="none" stroke-width="6"/><circle class="bar" id="ringBar" cx="50" cy="50" r="44" fill="none" stroke-width="6" stroke-linecap="round" stroke-dasharray="276.46" stroke-dashoffset="276.46"/></svg>
-          <div class="inner"><div class="count" id="count">0<small>/0</small></div><div class="lbl" id="countLbl">bước</div></div>
-        </div>
-        <button class="pad right" data-dir="right" aria-label="Phải"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 5 16 12 9 19"/></svg></button>
-        <button class="pad down" data-dir="down" aria-label="Xuống"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 9 12 16 19 9"/></svg></button>
-      </div>
+      <div class="duo" id="duo"></div>
       <div class="dots" id="dots" aria-hidden="true"></div>
     </div>
+    <template id="sideTpl">
+      <div class="side">
+        <div class="pl"><i></i><span class="pname"></span></div>
+        <div class="board">
+          <button class="pad up" data-dir="up" aria-label="Lên"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 15 12 8 19 15"/></svg></button>
+          <button class="pad left" data-dir="left" aria-label="Trái"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 5 8 12 15 19"/></svg></button>
+          <div class="hub">
+            <svg class="ring" viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="44" fill="none" stroke-width="7"/><circle class="bar" cx="50" cy="50" r="44" fill="none" stroke-width="7" stroke-linecap="round" stroke-dasharray="276.46" stroke-dashoffset="276.46"/></svg>
+            <div class="inner"><div class="count">0<small>/0</small></div><div class="lbl">bước</div></div>
+          </div>
+          <button class="pad right" data-dir="right" aria-label="Phải"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 5 16 12 9 19"/></svg></button>
+          <button class="pad down" data-dir="down" aria-label="Xuống"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 9 12 16 19 9"/></svg></button>
+        </div>
+      </div>
+    </template>
 
     <button class="primary game-cta" id="startBtn">Bắt đầu</button>
     <div class="wait-note" id="waitNote" hidden></div>
@@ -388,9 +402,21 @@
   const EVENTS = new Set(['cfg', 'start', 'round', 'press', 'clear', 'retry', 'over']);
 
   const $ = id => document.getElementById(id);
-  const app = $('app'), board = $('board'), msgEl = $('msg'), startBtn = $('startBtn'), dotsEl = $('dots');
-  const pads = {};
-  document.querySelectorAll('.pad').forEach(p => pads[p.dataset.dir] = p);
+  const app = $('app'), msgEl = $('msg'), startBtn = $('startBtn'), dotsEl = $('dots');
+
+  // Two boards side by side: sides[0] belongs to player 1, sides[1] to player 2
+  const sides = [], pads = [{}, {}];
+  for (const i of [0, 1]) {
+    const el = $('sideTpl').content.firstElementChild.cloneNode(true);
+    el.classList.add('p' + i);
+    el.querySelectorAll('.pad').forEach(p => pads[i][p.dataset.dir] = p);
+    $('duo').appendChild(el);
+    sides.push({
+      el, board: el.querySelector('.board'), name: el.querySelector('.pname'),
+      ring: el.querySelector('.ring'), bar: el.querySelector('.bar'),
+      count: el.querySelector('.count'), lbl: el.querySelector('.lbl')
+    });
+  }
 
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -442,8 +468,8 @@
     o.start(t); o.stop(t + dur / 1000 + 0.05);
   }
   const buzz = () => tone(110, 450, 'sawtooth', 0.2);
-  function flash(dir, dur) {
-    const p = pads[dir];
+  function flash(dir, dur, player) {
+    const p = pads[player][dir];
     p.classList.add('lit');
     tone(FREQ[dir], dur);
     setTimeout(() => p.classList.remove('lit'), dur);
@@ -453,6 +479,7 @@
   function show(s) {
     screen = s;
     ['lobby', 'wait', 'game'].forEach(n => $(n + 'Screen').hidden = n !== s);
+    app.classList.toggle('wide', s === 'game');
     if (s !== 'game') closeSheet();
   }
   function setMsg(text, cls = '') { msgEl.className = 'status ' + cls; msgEl.textContent = text; }
@@ -463,21 +490,31 @@
     const t = $('toast'); t.textContent = text; t.classList.add('show');
     clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 1900);
   }
-  function setProgress(done, total, label) {
-    $('count').innerHTML = `${done}<small>/${total}</small>`;
-    $('countLbl').textContent = label;
-    const frac = total ? done / total : 0;
-    $('ringBar').style.strokeDashoffset = RING_LEN * (1 - frac);
-    $('ring').classList.toggle('done', total > 0 && done === total);
+  function shake(player) {
+    const el = sides[player].el;
+    el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake');
   }
-  function lock(on) { board.classList.toggle('locked', on); if (on) board.classList.remove('theirs'); }
-  function shake() { board.classList.remove('shake'); void board.offsetWidth; board.classList.add('shake'); }
+  // Highlight whose board is live and show each player's own progress in its hub
+  function renderBoards() {
+    const o = G.phase === 'input' ? owner(G.idx) : -1;
+    sides.forEach((s, i) => {
+      s.el.classList.toggle('active', o === i);
+      s.el.classList.toggle('dim', o !== -1 && o !== i);
+      s.board.classList.toggle('idle', !(o === i && (net.mode === 'local' || i === me)));
+      let total = 0, done = 0;
+      for (let j = 0; j < G.seq.length; j++) if (owner(j) === i) { total++; if (j < G.idx) done++; }
+      s.count.innerHTML = `${done}<small>/${total}</small>`;
+      s.lbl.textContent = G.seq.length ? 'đã bấm' : 'bước';
+      s.bar.style.strokeDashoffset = RING_LEN * (1 - (total ? done / total : 0));
+      s.ring.classList.toggle('done', total > 0 && done === total);
+    });
+  }
 
   function renderPlayers() {
     for (const i of [0, 1]) {
       let label = names[i] || ('Người ' + (i + 1));
       if (net.mode !== 'local' && i === me) label += ' (bạn)';
-      $('pn' + i).textContent = label;
+      sides[i].name.textContent = label;
     }
     $('roomTag').textContent = net.mode === 'local' ? 'Cùng máy' : 'Phòng ' + net.code;
     $('hint').innerHTML = net.mode === 'local'
@@ -485,10 +522,6 @@
       : `<kbd>↑</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>↓</kbd> hoặc <kbd>WASD</kbd> bấm pad` + (isHostLike() ? ' · <kbd>Space</kbd> bắt đầu' : '');
   }
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  function renderActive() {
-    const o = G.phase === 'input' ? owner(G.idx) : -1;
-    [0, 1].forEach(i => $('pl' + i).classList.toggle('active', o === i));
-  }
   function renderDots(cur = -1) {
     const n = G.seq.length;
     while (dotsEl.childElementCount < n) dotsEl.appendChild(document.createElement('i'));
@@ -502,13 +535,10 @@
     });
   }
   function renderTurn() {
-    renderActive(); renderDots();
+    renderBoards(); renderDots();
     if (G.phase !== 'input') return;
     const o = owner(G.idx);
     const mine = net.mode === 'local' || o === me;
-    lock(!mine);
-    board.classList.toggle('theirs', !mine);
-    board.style.setProperty('--turn', `var(--p${o})`);
     if (net.mode === 'local') setMsg(`Lượt của ${names[o]}`, 'p' + o);
     else setMsg(mine ? 'Đến lượt bạn' : `${names[o]} đang bấm…`, 'p' + o);
   }
@@ -538,9 +568,8 @@
     runId++; hostGen++; optimistic.clear();
     G = blankGame();
     $('level').textContent = '–'; $('score').textContent = '0'; $('best').textContent = best;
-    setProgress(0, 0, 'bước');
-    lock(true); board.classList.remove('shake'); board.style.removeProperty('--turn');
-    renderDots(); renderActive(); renderPlayers(); renderSettings(); renderControls();
+    sides.forEach(s => s.el.classList.remove('shake'));
+    renderBoards(); renderDots(); renderPlayers(); renderSettings(); renderControls();
     setMsg(net.mode === 'guest' ? 'Ghi nhớ chuỗi đèn và bấm xen kẽ' : 'Sẵn sàng thì bấm Bắt đầu');
   }
 
@@ -566,12 +595,11 @@
         playSequence(); break;
       case 'press': {
         if (G.phase === 'showing') runId++;               // our playback ran late: cut it short
-        if (optimistic.has(ev.idx)) optimistic.delete(ev.idx); else flash(ev.dir, 220);
+        if (optimistic.has(ev.idx)) optimistic.delete(ev.idx); else flash(ev.dir, 220, ev.by);
         if (ev.ok) G.idx = Math.max(G.idx, ev.idx + 1);
-        if (!ev.ok) { shake(); buzz(); G.phase = 'wait'; }
+        if (!ev.ok) { shake(ev.by); buzz(); G.phase = 'wait'; }
         else G.phase = G.idx >= G.seq.length ? 'wait' : 'input';
-        setProgress(G.idx, G.seq.length, 'đã bấm');
-        if (G.phase === 'wait') { lock(true); renderActive(); renderDots(); }
+        if (G.phase === 'wait') { renderBoards(); renderDots(); }
         else renderTurn();
         break;
       }
@@ -588,18 +616,15 @@
 
   async function playSequence() {
     const my = ++runId;
-    lock(true);
-    board.style.removeProperty('--turn');
     $('level').textContent = G.seq.length;
-    setProgress(0, G.seq.length, 'đã bấm');
-    renderActive(); renderDots();
+    renderBoards(); renderDots();
     setMsg(G.retryUsed ? 'Xem lại…' : 'Quan sát…');
     await sleep(600 / cfg.speed);
     const s = STEP_MS / cfg.speed;
     for (let i = 0; i < G.seq.length; i++) {
       if (my !== runId) return;
       renderDots(i);
-      flash(G.seq[i], s * 0.75);
+      flash(G.seq[i], s * 0.75, owner(i));   // each light shows on the board of whoever must press it
       await sleep(s);
     }
     if (my !== runId) return;
@@ -608,17 +633,20 @@
   }
 
   function gameOverUI(ev) {
-    G.phase = 'over'; runId++; lock(true);
+    G.phase = 'over'; runId++;
     $('score').textContent = ev.score;
     if (ev.best > best) { best = ev.best; store.set('simon_coop_best', String(best)); }
     $('best').textContent = best;
     if (ev.newBest) setMsg(`Kỷ lục đội mới · ${ev.score} bước`, 'ok');
     else setMsg(`Kết thúc · ${ev.score} bước · ${who(ev.by)} bấm nhầm`, 'bad');
-    renderActive(); renderDots(); renderControls();
+    renderBoards(); renderDots(); renderControls();
     const my = runId;
     (async () => {               // replay the correct sequence once
       await sleep(700);
-      for (const d of G.seq) { if (my !== runId) return; flash(d, 220); await sleep(300); }
+      for (let i = 0; i < G.seq.length; i++) {
+        if (my !== runId) return;
+        flash(G.seq[i], 220, owner(i)); await sleep(300);
+      }
     })();
   }
 
@@ -674,22 +702,23 @@
   }
 
   // ---------------- Local input ----------------
-  function pressLocal(dir, player = null) {
+  // player = the board that was pressed (0 = left, 1 = right)
+  function pressLocal(dir, player) {
     if (screen !== 'game' || G.phase !== 'input') return;
     const o = owner(G.idx);
     if (net.mode === 'local') {
-      if (player !== null && player !== o) { toast(`Lượt của ${names[o]}`); return; }
+      if (player !== o) { toast(`Lượt của ${names[o]}`); return; }
       hostInput(dir, o); return;
     }
+    if (player !== me) { toast(`Đây là bảng của ${names[player]}`); return; }
     if (o !== me) { toast(`Chờ ${names[o]} bấm`); return; }
     if (net.mode === 'host') { hostInput(dir, me); return; }
     // guest: show the press instantly, the host confirms it
     const i = G.idx, ok = dir === G.seq[i];
-    optimistic.add(i); flash(dir, 220);
+    optimistic.add(i); flash(dir, 220, me);
     if (ok) G.idx = i + 1;
-    if (!ok || G.idx >= G.seq.length) { G.phase = 'wait'; lock(true); renderActive(); renderDots(); }
+    if (!ok || G.idx >= G.seq.length) { G.phase = 'wait'; renderBoards(); renderDots(); }
     else renderTurn();
-    setProgress(G.idx, G.seq.length, 'đã bấm');
     send({ t: 'input', dir, idx: i });
   }
 
@@ -926,9 +955,9 @@
   $('strict').addEventListener('change', e => { e.target.blur(); changeCfg({ strict: e.target.checked }); });
   soundEl.addEventListener('change', () => { store.set('simon_sound', soundEl.checked ? '1' : '0'); soundEl.blur(); });
 
-  Object.entries(pads).forEach(([dir, p]) => {
-    p.addEventListener('pointerdown', e => { e.preventDefault(); pressLocal(dir); });
-  });
+  pads.forEach((set, player) => Object.entries(set).forEach(([dir, p]) => {
+    p.addEventListener('pointerdown', e => { e.preventDefault(); pressLocal(dir, player); });
+  }));
 
   document.addEventListener('keydown', e => {
     const t = e.target;
@@ -942,7 +971,8 @@
     const dir = ARROWS[k] || WASD[k];
     if (dir) {
       e.preventDefault();
-      if (!e.repeat) pressLocal(dir, net.mode === 'local' ? (ARROWS[k] ? 1 : 0) : null);
+      // same device: WASD drives the left board, arrows the right one; online: your own board
+      if (!e.repeat) pressLocal(dir, net.mode === 'local' ? (ARROWS[k] ? 1 : 0) : me);
     } else if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
       if (isHostLike() && (G.phase === 'idle' || G.phase === 'over')) hostStart();
