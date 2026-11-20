@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Simon Co-op">
+<meta name="theme-color" content="#000000">
+<meta name="description" content="Hai người cùng ghi nhớ chuỗi đèn và bấm xen kẽ. Chơi online với bạn bè, không cần cài đặt.">
+<meta property="og:title" content="Simon Co-op – chơi cùng mình nhé!">
+<meta property="og:description" content="Hai người cùng ghi nhớ chuỗi đèn và bấm xen kẽ. Sai là cả đội cùng chịu.">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<title>Simon Co-op – Memory Pad</title>
+<style>
+  :root {
+    --bg: #000; --card: #1c1c1e; --card2: #2c2c2e; --sep: #38383a;
+    --text: #fff; --text2: rgba(235,235,245,.6); --text3: rgba(235,235,245,.3);
+    --green: #30d158; --red: #ff453a; --blue: #0a84ff; --yellow: #ffd60a;
+    --up: var(--green); --left: var(--red); --right: var(--blue); --down: var(--yellow);
+    --p0: #bf5af2; --p1: #64d2ff;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; min-height: 100%; background: var(--bg); }
+  body {
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+    touch-action: manipulation; overscroll-behavior: none;
+  }
+  input { user-select: text; -webkit-user-select: text; }
+  .app {
+    min-height: 100vh; min-height: 100dvh;
+    max-width: 440px; margin: 0 auto;
+    padding: calc(env(safe-area-inset-top) + 8px) calc(env(safe-area-inset-right) + 20px)
+             calc(env(safe-area-inset-bottom) + 20px) calc(env(safe-area-inset-left) + 20px);
+    display: flex; flex-direction: column;
+  }
+  .screen { flex: 1; display: flex; flex-direction: column; }
+
+  /* Header */
+  header { display: flex; align-items: center; justify-content: space-between; height: 52px; gap: 10px; }
+  header h1 { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -.4px; }
+  .title { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .tag {
+    font-size: 12px; font-weight: 700; letter-spacing: .4px; padding: 4px 8px; border-radius: 7px;
+    background: var(--card2); color: var(--text2); white-space: nowrap; font-variant-numeric: tabular-nums;
+  }
+  .hbtns { display: flex; gap: 8px; }
+  .icon-btn {
+    width: 36px; height: 36px; border-radius: 50%; border: none; background: var(--card);
+    color: var(--text2); display: grid; place-items: center; cursor: pointer; flex: none;
+  }
+  .icon-btn:active { background: var(--card2); }
+  .icon-btn svg { width: 20px; height: 20px; }
+
+  /* Lobby */
+  .hero { display: flex; flex-direction: column; align-items: center; text-align: center; margin: 30px 0 8px; }
+  .mini { display: grid; grid-template-columns: repeat(3, 22px); grid-template-rows: repeat(3, 22px); gap: 5px; margin-bottom: 18px; }
+  .mini i { border-radius: 7px; }
+  .mini i:nth-child(1) { grid-area: 1 / 2; background: var(--up); }
+  .mini i:nth-child(2) { grid-area: 2 / 1; background: var(--left); }
+  .mini i:nth-child(3) { grid-area: 2 / 3; background: var(--right); }
+  .mini i:nth-child(4) { grid-area: 3 / 2; background: var(--down); }
+  .mini b { grid-area: 2 / 2; display: flex; align-items: center; justify-content: center; gap: 3px; }
+  .mini b::before, .mini b::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--p0); }
+  .mini b::after { background: var(--p1); }
+  .hero h1 { margin: 0; font-size: 34px; font-weight: 800; letter-spacing: -.6px; }
+  .hero h1 .tag { font-size: 13px; position: relative; top: -6px; margin-left: 4px; }
+  .lead { color: var(--text2); font-size: 15px; line-height: 1.45; margin: 10px 0 0; max-width: 320px; }
+  .section-lbl { font-size: 13px; color: var(--text2); text-transform: uppercase; margin: 0 4px 6px; letter-spacing: .2px; }
+  .lobby .section-lbl { margin-top: 22px; }
+  .field {
+    width: 100%; height: 50px; border-radius: 12px; border: none; background: var(--card); color: var(--text);
+    font-size: 17px; padding: 0 14px; font-family: inherit; outline: none;
+  }
+  .field:focus { box-shadow: 0 0 0 2px var(--blue) inset; }
+  .field::placeholder { color: var(--text3); }
+  .code-input { text-transform: uppercase; letter-spacing: 4px; font-weight: 700; }
+  .code-input::placeholder { letter-spacing: normal; font-weight: 400; text-transform: none; }
+  .join { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-top: 10px; }
+  .join .primary { width: auto; padding: 0 26px; height: 50px; }
+  .or { display: flex; align-items: center; gap: 12px; color: var(--text3); font-size: 13px; margin: 22px 0; }
+  .or::before, .or::after { content: ""; flex: 1; height: .5px; background: var(--sep); }
+  .lobby-msg { min-height: 20px; text-align: center; font-size: 14px; color: var(--text2); margin-top: 16px; line-height: 1.4; }
+  .lobby-msg.bad { color: var(--red); }
+
+  /* Wait */
+  .wait-card { background: var(--card); border-radius: 18px; padding: 24px 18px 20px; text-align: center; margin-top: 18px; }
+  .wait-card .k { font-size: 13px; color: var(--text2); text-transform: uppercase; letter-spacing: .3px; }
+  .room-code { font-size: 48px; font-weight: 800; letter-spacing: 8px; margin: 6px 0 2px; padding-left: 8px; font-variant-numeric: tabular-nums; }
+  .wait-card .sub { font-size: 14px; color: var(--text2); margin-bottom: 18px; }
+  .link-box {
+    margin-top: 12px; font-size: 13px; color: var(--blue); word-break: break-all; cursor: pointer;
+    padding: 10px 12px; background: var(--card2); border-radius: 10px;
+  }
+  .waiting { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--text2); margin-top: 26px; font-size: 15px; }
+  .spin { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--sep); border-top-color: var(--text); animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Players */
+  .players { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+  .pl {
+    display: flex; align-items: center; gap: 8px; min-width: 0;
+    background: var(--card); border-radius: 12px; padding: 0 12px; height: 40px;
+    font-size: 15px; font-weight: 600; border: 1.5px solid transparent;
+    transition: border-color .15s, background .15s;
+  }
+  .pl span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pl i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
+  .pl.active { border-color: var(--c); background: color-mix(in srgb, var(--c) 16%, var(--card)); }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--card); border-radius: 14px; margin-top: 10px; }
+  .stat { padding: 10px 0 12px; text-align: center; }
+  .stat + .stat { border-left: .5px solid var(--sep); }
+  .stat .k { font-size: 12px; color: var(--text2); font-weight: 500; }
+  .stat .v { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .stat .v.accent { color: var(--yellow); }
+  .meta { text-align: center; font-size: 12px; color: var(--text3); margin-top: 8px; }
+
+  /* Status */
+  .status { text-align: center; margin: 16px 0 12px; min-height: 22px; font-size: 17px; font-weight: 600; color: var(--text2); transition: color .2s; }
+  .status.ok { color: var(--green); } .status.bad { color: var(--red); } .status.go { color: var(--text); }
+  .status.p0 { color: var(--p0); } .status.p1 { color: var(--p1); }
+
+  /* Board */
+  .stage { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .board {
+    display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
+    gap: 10px; width: min(330px, 86vw, 44vh); aspect-ratio: 1;
+  }
+  .pad {
+    border: none; border-radius: 26px; cursor: pointer; padding: 0;
+    display: grid; place-items: center;
+    opacity: .28; transition: opacity .1s, transform .1s, box-shadow .1s;
+  }
+  .pad svg { width: 38%; height: 38%; color: rgba(0,0,0,.55); }
+  .pad.up    { grid-area: 1 / 2; background: var(--up); }
+  .pad.left  { grid-area: 2 / 1; background: var(--left); }
+  .pad.right { grid-area: 2 / 3; background: var(--right); }
+  .pad.down  { grid-area: 3 / 2; background: var(--down); }
+  .board.theirs .pad { opacity: .12; }
+  .pad.lit, .board.theirs .pad.lit { opacity: 1; transform: scale(1.04); }
+  .pad.up.lit    { box-shadow: 0 0 36px -4px var(--up); }
+  .pad.left.lit  { box-shadow: 0 0 36px -4px var(--left); }
+  .pad.right.lit { box-shadow: 0 0 36px -4px var(--right); }
+  .pad.down.lit  { box-shadow: 0 0 36px -4px var(--down); }
+  .board.locked .pad { cursor: default; }
+  .board.shake { animation: shake .4s; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-8px)} 40%,80%{transform:translateX(8px)} }
+
+  .hub { grid-area: 2 / 2; position: relative; display: grid; place-items: center; }
+  .hub svg.ring { position: absolute; inset: 4%; width: 92%; height: 92%; transform: rotate(-90deg); }
+  .ring .track { stroke: var(--card2); }
+  .ring .bar { stroke: var(--turn, var(--text)); transition: stroke-dashoffset .15s ease-out, stroke .2s; }
+  .ring.done .bar { stroke: var(--green); }
+  .hub .inner { text-align: center; line-height: 1.1; }
+  .hub .count { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .hub .count small { font-size: 14px; color: var(--text2); font-weight: 600; }
+  .hub .lbl { font-size: 11px; color: var(--text2); margin-top: 3px; }
+
+  /* Step owner dots */
+  .dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; width: min(330px, 86vw, 44vh); margin-top: 18px; min-height: 10px; }
+  .dots i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--c); transition: background .15s, transform .15s; }
+  .dots i.p0 { --c: var(--p0); } .dots i.p1 { --c: var(--p1); }
+  .dots i.done, .dots i.cur { background: var(--c); }
+  .dots i.cur { transform: scale(1.4); }
+  .dots i.next { animation: pulse 1s ease-in-out infinite; }
+  @keyframes pulse { 50% { transform: scale(1.45); } }
+
+  /* Buttons */
+  .primary {
+    width: 100%; height: 52px; border: none; border-radius: 14px;
+    background: var(--blue); color: #fff; font-size: 17px; font-weight: 600; cursor: pointer;
+    font-family: inherit;
+  }
+  .primary:active { opacity: .8; }
+  .primary:disabled { opacity: .45; cursor: default; }
+  .primary.ghost { background: var(--card); color: var(--blue); }
+  .game-cta { margin-top: 22px; }
+  .wait-note {
+    margin-top: 22px; height: 52px; border-radius: 14px; background: var(--card);
+    display: grid; place-items: center; color: var(--text2); font-size: 15px; font-weight: 600;
+  }
+  .hint { text-align: center; font-size: 12px; color: var(--text3); margin-top: 12px; }
+  @media (hover: none) { .hint { display: none; } }
+  kbd { font-family: inherit; background: var(--card); border-radius: 5px; padding: 1px 6px; color: var(--text2); }
+
+  /* Toast */
+  .toast {
+    position: fixed; left: 50%; top: calc(env(safe-area-inset-top) + 14px); z-index: 30;
+    transform: translate(-50%, -20px); opacity: 0; pointer-events: none;
+    background: var(--card2); color: var(--text); padding: 10px 16px; border-radius: 999px;
+    font-size: 14px; font-weight: 600; max-width: calc(100vw - 32px); text-align: center;
+    box-shadow: 0 6px 24px rgba(0,0,0,.5); transition: opacity .2s, transform .2s;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  /* Settings sheet */
+  .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.5); opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 10; }
+  .sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 11;
+    max-width: 440px; margin: 0 auto;
+    background: var(--card); border-radius: 14px 14px 0 0;
+    padding: 8px 16px calc(env(safe-area-inset-bottom) + 20px);
+    transform: translateY(105%); transition: transform .3s cubic-bezier(.2,.8,.2,1);
+  }
+  .open .backdrop { opacity: 1; pointer-events: auto; }
+  .open .sheet { transform: none; }
+  .grabber { width: 36px; height: 5px; border-radius: 3px; background: var(--sep); margin: 0 auto 10px; }
+  .sheet-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .sheet-head h2 { margin: 0; font-size: 17px; font-weight: 600; }
+  .link { background: none; border: none; color: var(--blue); font-size: 17px; font-weight: 600; cursor: pointer; font-family: inherit; padding: 4px; }
+  .group { background: var(--card2); border-radius: 12px; margin-bottom: 20px; }
+  .row { display: flex; align-items: center; justify-content: space-between; padding: 0 14px; min-height: 48px; font-size: 17px; }
+  .row + .row { border-top: .5px solid var(--sep); }
+  .row .sub { font-size: 13px; color: var(--text2); margin-top: 2px; }
+  .row > div:first-child { padding: 10px 0; }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--card2); border-radius: 9px; padding: 2px; margin: 0 0 20px; }
+  .seg.two { grid-template-columns: 1fr 1fr; }
+  .seg button {
+    border: none; background: transparent; color: var(--text); font-family: inherit;
+    font-size: 15px; font-weight: 600; height: 34px; border-radius: 7px; cursor: pointer; font-variant-numeric: tabular-nums;
+  }
+  .seg button.on { background: #636366; }
+  .seg-note { font-size: 13px; color: var(--text2); margin: -12px 4px 20px; line-height: 1.4; }
+  .guest-note { display: none; font-size: 13px; color: var(--yellow); margin: 0 4px 14px; }
+  .ro .guest-note { display: block; }
+  .ro .host-only { opacity: .4; pointer-events: none; }
+
+  .switch { position: relative; width: 51px; height: 31px; flex: none; }
+  .switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .switch span { position: absolute; inset: 0; background: #39393d; border-radius: 31px; transition: background .2s; cursor: pointer; }
+  .switch span::after { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #fff; transition: transform .2s; box-shadow: 0 2px 4px rgba(0,0,0,.25); }
+  .switch input:checked + span { background: var(--green); }
+  .switch input:checked + span::after { transform: translateX(20px); }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- ================= LOBBY ================= -->
+  <section class="screen lobby" id="lobbyScreen">
+    <div class="hero">
+      <div class="mini"><i></i><i></i><i></i><i></i><b></b></div>
+      <h1>Simon<span class="tag">CO-OP</span></h1>
+      <p class="lead">Hai người cùng ghi nhớ một chuỗi đèn và bấm xen kẽ nhau. Ai sai thì cả đội cùng chịu.</p>
+    </div>
+
+    <div class="section-lbl">Tên của bạn</div>
+    <input class="field" id="nameInput" maxlength="12" placeholder="Nhập tên" autocomplete="nickname" enterkeyhint="done">
+
+    <div class="section-lbl">Chơi online với bạn</div>
+    <button class="primary" id="createBtn">Tạo phòng</button>
+    <div class="join">
+      <input class="field code-input" id="codeInput" maxlength="5" placeholder="Mã phòng" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go">
+      <button class="primary ghost" id="joinBtn">Vào</button>
+    </div>
+
+    <div class="or">hoặc</div>
+    <button class="primary ghost" id="localBtn">Chơi chung một máy</button>
+
+    <div class="lobby-msg" id="lobbyMsg"></div>
+  </section>
+
+  <!-- ================= WAITING ROOM ================= -->
+  <section class="screen" id="waitScreen" hidden>
+    <header>
+      <div class="title"><h1>Phòng chờ</h1></div>
+    </header>
+    <div class="wait-card">
+      <div class="k">Mã phòng</div>
+      <div class="room-code" id="roomCode">-----</div>
+      <div class="sub">Gửi mã hoặc link này cho bạn bè</div>
+      <button class="primary" id="shareBtn">Gửi link mời</button>
+      <div class="link-box" id="linkBox" title="Bấm để sao chép"></div>
+      <div class="waiting"><span class="spin"></span>Đang chờ bạn bè vào…</div>
+    </div>
+    <div style="flex:1"></div>
+    <button class="primary ghost" id="cancelBtn">Huỷ phòng</button>
+  </section>
+
+  <!-- ================= GAME ================= -->
+  <section class="screen" id="gameScreen" hidden>
+    <header>
+      <div class="title"><h1>Simon</h1><span class="tag" id="roomTag">Phòng</span></div>
+      <div class="hbtns">
+        <button class="icon-btn" id="settingsBtn" aria-label="Cài đặt">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="9" cy="7" r="2.4" fill="var(--card)"/><circle cx="15" cy="17" r="2.4" fill="var(--card)"/></svg>
+        </button>
+        <button class="icon-btn" id="leaveBtn" aria-label="Rời phòng">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="players">
+      <div class="pl" id="pl0" style="--c:var(--p0)"><i></i><span id="pn0"></span></div>
+      <div class="pl" id="pl1" style="--c:var(--p1)"><i></i><span id="pn1"></span></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="k">Level</div><div class="v" id="level">–</div></div>
+      <div class="stat"><div class="k">Điểm đội</div><div class="v" id="score">0</div></div>
+      <div class="stat"><div class="k">Kỷ lục đội</div><div class="v accent" id="best">0</div></div>
+    </div>
+    <div class="meta" id="modeTag"></div>
+
+    <div class="status" id="msg"></div>
+
+    <div class="stage">
+      <div class="board locked" id="board">
+        <button class="pad up" data-dir="up" aria-label="Lên"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 15 12 8 19 15"/></svg></button>
+        <button class="pad left" data-dir="left" aria-label="Trái"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 5 8 12 15 19"/></svg></button>
+        <div class="hub">
+          <svg class="ring" id="ring" viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="44" fill="none" stroke-width="6"/><circle class="bar" id="ringBar" cx="50" cy="50" r="44" fill="none" stroke-width="6" stroke-linecap="round" stroke-dasharray="276.46" stroke-dashoffset="276.46"/></svg>
+          <div class="inner"><div class="count" id="count">0<small>/0</small></div><div class="lbl" id="countLbl">bước</div></div>
+        </div>
+        <button class="pad right" data-dir="right" aria-label="Phải"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 5 16 12 9 19"/></svg></button>
+        <button class="pad down" data-dir="down" aria-label="Xuống"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 9 12 16 19 9"/></svg></button>
+      </div>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+    </div>
+
+    <button class="primary game-cta" id="startBtn">Bắt đầu</button>
+    <div class="wait-note" id="waitNote" hidden></div>
+    <div class="hint" id="hint"></div>
+  </section>
+
+  <div class="backdrop" id="backdrop"></div>
+  <div class="sheet" role="dialog" aria-label="Cài đặt">
+    <div class="grabber"></div>
+    <div class="sheet-head"><span style="width:44px"></span><h2>Cài đặt</h2><button class="link" id="doneBtn">Xong</button></div>
+    <div class="guest-note">Chủ phòng chỉnh kiểu chơi, tốc độ và chế độ khó.</div>
+
+    <div class="host-only">
+      <div class="section-lbl">Kiểu xen kẽ</div>
+      <div class="seg two" id="modeSeg">
+        <button data-mode="step">Từng bước</button>
+        <button data-mode="round">Từng lượt</button>
+      </div>
+      <div class="seg-note" id="modeNote"></div>
+
+      <div class="section-lbl">Tốc độ</div>
+      <div class="seg" id="speedSeg">
+        <button data-mul="1">1.0×</button>
+        <button data-mul="1.5">1.5×</button>
+        <button data-mul="2">2.0×</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="row host-only">
+        <div>Chế độ khó<div class="sub">Sai một lần là cả đội thua</div></div>
+        <label class="switch"><input type="checkbox" id="strict"><span></span></label>
+      </div>
+      <div class="row">
+        <div>Âm thanh</div>
+        <label class="switch"><input type="checkbox" id="sound" checked><span></span></label>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+(() => {
+  'use strict';
+  const DIRS = ['up', 'left', 'right', 'down'];
+  const FREQ = { up: 329.63, left: 261.63, right: 392.0, down: 523.25 };
+  const ARROWS = { ArrowUp: 'up', ArrowLeft: 'left', ArrowRight: 'right', ArrowDown: 'down' };
+  const WASD = { w: 'up', a: 'left', d: 'right', s: 'down' };
+  const STEP_MS = 520;
+  const RING_LEN = 276.46;           // 2πr, r = 44
+  const PEER_PREFIX = 'simon-coop-v1-';
+  const CODE_ABC = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  const CODE_LEN = 5;
+  const MODE_NOTE = {
+    step: 'Bấm luân phiên từng đèn: người này đèn 1, người kia đèn 2, cứ thế đến hết chuỗi. Màu chấm bên dưới cho biết đèn nào của ai.',
+    round: 'Mỗi lượt một người bấm cả chuỗi, lượt sau đổi người. Người còn lại vẫn phải nhớ để tới lượt mình.'
+  };
+  const EVENTS = new Set(['cfg', 'start', 'round', 'press', 'clear', 'retry', 'over']);
+
+  const $ = id => document.getElementById(id);
+  const app = $('app'), board = $('board'), msgEl = $('msg'), startBtn = $('startBtn'), dotsEl = $('dots');
+  const pads = {};
+  document.querySelectorAll('.pad').forEach(p => pads[p.dataset.dir] = p);
+
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+
+  // ---------------- State ----------------
+  const blankNet = () => ({ mode: null, peer: null, conn: null, code: '', lastSeen: 0, ping: null, welcomed: false });
+  const blankGame = () => ({ seq: [], starter: 0, idx: 0, phase: 'idle', retryUsed: false, score: 0 });
+  let net = blankNet();       // mode: 'local' | 'host' | 'guest'
+  let me = 0;                 // this device's player index online (host 0, guest 1)
+  let names = ['Người 1', 'Người 2'];
+  let cfg = { mode: 'step', speed: 1, strict: false };
+  let G = blankGame();        // phase: idle | showing | input | wait | over
+  let best = parseInt(store.get('simon_coop_best') || '0', 10) || 0;
+  let runId = 0, hostGen = 0, gameStarter = 1;
+  let screen = 'lobby';
+  const optimistic = new Set();
+
+  const savedSpeed = parseFloat(store.get('simon_speed'));
+  if ([1, 1.5, 2].includes(savedSpeed)) cfg.speed = savedSpeed;
+  if (store.get('simon_coop_mode') === 'round') cfg.mode = 'round';
+  cfg.strict = store.get('simon_strict') === '1';
+  const soundEl = $('sound');
+  if (store.get('simon_sound') === '0') soundEl.checked = false;
+
+  const isHostLike = () => net.mode === 'host' || net.mode === 'local';
+  const owner = i => cfg.mode === 'step' ? (G.starter + i) % 2 : G.starter;
+  const who = i => (net.mode !== 'local' && i === me) ? 'Bạn' : (names[i] || 'Người ' + (i + 1));
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  // ---------------- Audio ----------------
+  let ctx = null;
+  function audio() {
+    if (!ctx) { try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+    if (ctx && ctx.state === 'suspended') ctx.resume().catch(() => {});
+    return ctx;
+  }
+  function tone(freq, dur, type = 'triangle', vol = 0.25) {
+    if (!soundEl.checked) return;
+    const c = audio(); if (!c) return;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.value = freq;
+    const t = c.currentTime;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur / 1000);
+    o.connect(g).connect(c.destination);
+    o.start(t); o.stop(t + dur / 1000 + 0.05);
+  }
+  const buzz = () => tone(110, 450, 'sawtooth', 0.2);
+  function flash(dir, dur) {
+    const p = pads[dir];
+    p.classList.add('lit');
+    tone(FREQ[dir], dur);
+    setTimeout(() => p.classList.remove('lit'), dur);
+  }
+
+  // ---------------- UI helpers ----------------
+  function show(s) {
+    screen = s;
+    ['lobby', 'wait', 'game'].forEach(n => $(n + 'Screen').hidden = n !== s);
+    if (s !== 'game') closeSheet();
+  }
+  function setMsg(text, cls = '') { msgEl.className = 'status ' + cls; msgEl.textContent = text; }
+  function lobbyMsg(text, bad = false) { const el = $('lobbyMsg'); el.textContent = text; el.classList.toggle('bad', bad); }
+  function setLobbyBusy(on) { ['createBtn', 'joinBtn', 'localBtn'].forEach(id => $(id).disabled = on); }
+  let toastT;
+  function toast(text) {
+    const t = $('toast'); t.textContent = text; t.classList.add('show');
+    clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 1900);
+  }
+  function setProgress(done, total, label) {
+    $('count').innerHTML = `${done}<small>/${total}</small>`;
+    $('countLbl').textContent = label;
+    const frac = total ? done / total : 0;
+    $('ringBar').style.strokeDashoffset = RING_LEN * (1 - frac);
+    $('ring').classList.toggle('done', total > 0 && done === total);
+  }
+  function lock(on) { board.classList.toggle('locked', on); if (on) board.classList.remove('theirs'); }
+  function shake() { board.classList.remove('shake'); void board.offsetWidth; board.classList.add('shake'); }
+
+  function renderPlayers() {
+    for (const i of [0, 1]) {
+      let label = names[i] || ('Người ' + (i + 1));
+      if (net.mode !== 'local' && i === me) label += ' (bạn)';
+      $('pn' + i).textContent = label;
+    }
+    $('roomTag').textContent = net.mode === 'local' ? 'Cùng máy' : 'Phòng ' + net.code;
+    $('hint').innerHTML = net.mode === 'local'
+      ? `${esc(names[0])}: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> · ${esc(names[1])}: <kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> · <kbd>Space</kbd> bắt đầu`
+      : `<kbd>↑</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>↓</kbd> hoặc <kbd>WASD</kbd> bấm pad` + (isHostLike() ? ' · <kbd>Space</kbd> bắt đầu' : '');
+  }
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  function renderActive() {
+    const o = G.phase === 'input' ? owner(G.idx) : -1;
+    [0, 1].forEach(i => $('pl' + i).classList.toggle('active', o === i));
+  }
+  function renderDots(cur = -1) {
+    const n = G.seq.length;
+    while (dotsEl.childElementCount < n) dotsEl.appendChild(document.createElement('i'));
+    while (dotsEl.childElementCount > n) dotsEl.lastChild.remove();
+    const showDone = G.phase === 'input' || G.phase === 'wait' || G.phase === 'over';
+    Array.from(dotsEl.children).forEach((d, i) => {
+      d.className = 'p' + owner(i)
+        + (showDone && i < G.idx ? ' done' : '')
+        + (i === cur ? ' cur' : '')
+        + (G.phase === 'input' && i === G.idx ? ' next' : '');
+    });
+  }
+  function renderTurn() {
+    renderActive(); renderDots();
+    if (G.phase !== 'input') return;
+    const o = owner(G.idx);
+    const mine = net.mode === 'local' || o === me;
+    lock(!mine);
+    board.classList.toggle('theirs', !mine);
+    board.style.setProperty('--turn', `var(--p${o})`);
+    if (net.mode === 'local') setMsg(`Lượt của ${names[o]}`, 'p' + o);
+    else setMsg(mine ? 'Đến lượt bạn' : `${names[o]} đang bấm…`, 'p' + o);
+  }
+  function renderControls() {
+    const playing = G.phase !== 'idle' && G.phase !== 'over';
+    const note = $('waitNote');
+    if (net.mode === 'guest') {
+      startBtn.hidden = true;
+      note.hidden = playing;
+      note.textContent = `Chờ ${names[0]} bắt đầu${G.phase === 'over' ? ' ván mới' : ''}…`;
+    } else {
+      startBtn.hidden = false; note.hidden = true;
+      startBtn.textContent = G.phase === 'idle' ? 'Bắt đầu' : 'Chơi lại';
+      startBtn.classList.toggle('ghost', playing);
+    }
+  }
+  function renderSettings() {
+    document.querySelectorAll('#speedSeg button').forEach(b => b.classList.toggle('on', parseFloat(b.dataset.mul) === cfg.speed));
+    document.querySelectorAll('#modeSeg button').forEach(b => b.classList.toggle('on', b.dataset.mode === cfg.mode));
+    $('strict').checked = cfg.strict;
+    $('modeNote').textContent = MODE_NOTE[cfg.mode];
+    app.classList.toggle('ro', net.mode === 'guest');
+    $('modeTag').textContent = (cfg.mode === 'step' ? 'Xen kẽ từng bước' : 'Xen kẽ từng lượt')
+      + ` · ${cfg.speed.toFixed(1)}×` + (cfg.strict ? ' · Khó' : '');
+  }
+  function resetGame() {
+    runId++; hostGen++; optimistic.clear();
+    G = blankGame();
+    $('level').textContent = '–'; $('score').textContent = '0'; $('best').textContent = best;
+    setProgress(0, 0, 'bước');
+    lock(true); board.classList.remove('shake'); board.style.removeProperty('--turn');
+    renderDots(); renderActive(); renderPlayers(); renderSettings(); renderControls();
+    setMsg(net.mode === 'guest' ? 'Ghi nhớ chuỗi đèn và bấm xen kẽ' : 'Sẵn sàng thì bấm Bắt đầu');
+  }
+
+  const openSheet = () => app.classList.add('open');
+  const closeSheet = () => app.classList.remove('open');
+
+  // ---------------- Shared event handling (both devices) ----------------
+  // The host (or the single device in local mode) decides everything and emits events;
+  // every device, host included, renders the game only from these events.
+  function apply(ev) {
+    switch (ev.t) {
+      case 'cfg':
+        cfg = ev.cfg; renderSettings(); renderTurn(); break;
+      case 'start':
+        runId++; optimistic.clear();
+        G = blankGame(); G.phase = 'showing';
+        $('score').textContent = 0;
+        renderControls(); break;
+      case 'round':
+        G.seq = ev.seq; G.starter = ev.starter; G.idx = 0; G.retryUsed = !!ev.replay;
+        G.phase = 'showing'; optimistic.clear();
+        renderControls();
+        playSequence(); break;
+      case 'press': {
+        if (G.phase === 'showing') runId++;               // our playback ran late: cut it short
+        if (optimistic.has(ev.idx)) optimistic.delete(ev.idx); else flash(ev.dir, 220);
+        if (ev.ok) G.idx = Math.max(G.idx, ev.idx + 1);
+        if (!ev.ok) { shake(); buzz(); G.phase = 'wait'; }
+        else G.phase = G.idx >= G.seq.length ? 'wait' : 'input';
+        setProgress(G.idx, G.seq.length, 'đã bấm');
+        if (G.phase === 'wait') { lock(true); renderActive(); renderDots(); }
+        else renderTurn();
+        break;
+      }
+      case 'clear':
+        G.phase = 'wait'; G.score = ev.score; $('score').textContent = ev.score;
+        setMsg('Chính xác', 'ok'); break;
+      case 'retry':
+        G.phase = 'wait';
+        setMsg(`${who(ev.by)} bấm nhầm · xem lại lần nữa`, 'bad'); break;
+      case 'over':
+        gameOverUI(ev); break;
+    }
+  }
+
+  async function playSequence() {
+    const my = ++runId;
+    lock(true);
+    board.style.removeProperty('--turn');
+    $('level').textContent = G.seq.length;
+    setProgress(0, G.seq.length, 'đã bấm');
+    renderActive(); renderDots();
+    setMsg(G.retryUsed ? 'Xem lại…' : 'Quan sát…');
+    await sleep(600 / cfg.speed);
+    const s = STEP_MS / cfg.speed;
+    for (let i = 0; i < G.seq.length; i++) {
+      if (my !== runId) return;
+      renderDots(i);
+      flash(G.seq[i], s * 0.75);
+      await sleep(s);
+    }
+    if (my !== runId) return;
+    G.phase = 'input'; G.idx = 0;
+    renderTurn();
+  }
+
+  function gameOverUI(ev) {
+    G.phase = 'over'; runId++; lock(true);
+    $('score').textContent = ev.score;
+    if (ev.best > best) { best = ev.best; store.set('simon_coop_best', String(best)); }
+    $('best').textContent = best;
+    if (ev.newBest) setMsg(`Kỷ lục đội mới · ${ev.score} bước`, 'ok');
+    else setMsg(`Kết thúc · ${ev.score} bước · ${who(ev.by)} bấm nhầm`, 'bad');
+    renderActive(); renderDots(); renderControls();
+    const my = runId;
+    (async () => {               // replay the correct sequence once
+      await sleep(700);
+      for (const d of G.seq) { if (my !== runId) return; flash(d, 220); await sleep(300); }
+    })();
+  }
+
+  // ---------------- Host engine (authoritative) ----------------
+  function send(msg) { const c = net.conn; if (c && c.open) { try { c.send(msg); } catch (e) {} } }
+  function emit(ev) { apply(ev); if (net.mode === 'host') send(ev); }
+  function later(ms, fn) { const g = hostGen; setTimeout(() => { if (g === hostGen) fn(); }, ms); }
+
+  function hostStart() {
+    if (!isHostLike()) return;
+    closeSheet(); audio();
+    hostGen++;
+    gameStarter = 1 - gameStarter;     // the other player opens the next game
+    emit({ t: 'start' });
+    hostNextRound();
+  }
+  function hostNextRound() {
+    const seq = G.seq.concat(DIRS[Math.floor(Math.random() * 4)]);
+    const starter = cfg.mode === 'step' ? gameStarter : (gameStarter + seq.length - 1) % 2;
+    emit({ t: 'round', seq, starter, replay: false });
+  }
+  function hostInput(dir, by, idx) {
+    if (G.phase !== 'input') return;
+    if (idx !== undefined && idx !== G.idx) return;
+    if (net.mode !== 'local' && owner(G.idx) !== by) return;
+    const i = G.idx, ok = dir === G.seq[i];
+    emit({ t: 'press', dir, by, idx: i, ok });
+    if (!ok) {
+      if (!cfg.strict && !G.retryUsed) {
+        emit({ t: 'retry', by });
+        later(1100, () => emit({ t: 'round', seq: G.seq.slice(), starter: G.starter, replay: true }));
+      } else {
+        const score = G.seq.length - 1;
+        const newBest = score > best;
+        if (newBest) { best = score; store.set('simon_coop_best', String(best)); }
+        emit({ t: 'over', score, best, newBest, by });
+      }
+    } else if (i + 1 === G.seq.length) {
+      emit({ t: 'clear', score: G.seq.length });
+      later(700, hostNextRound);
+    }
+  }
+  function changeCfg(patch) {
+    if (!isHostLike()) { toast('Chỉ chủ phòng mới đổi được'); renderSettings(); return; }
+    if (patch.mode && patch.mode !== cfg.mode && G.phase !== 'idle' && G.phase !== 'over') {
+      toast('Đổi kiểu xen kẽ sau khi hết ván'); renderSettings(); return;
+    }
+    const next = Object.assign({}, cfg, patch);
+    store.set('simon_speed', String(next.speed));
+    store.set('simon_coop_mode', next.mode);
+    store.set('simon_strict', next.strict ? '1' : '0');
+    emit({ t: 'cfg', cfg: next });
+  }
+
+  // ---------------- Local input ----------------
+  function pressLocal(dir, player = null) {
+    if (screen !== 'game' || G.phase !== 'input') return;
+    const o = owner(G.idx);
+    if (net.mode === 'local') {
+      if (player !== null && player !== o) { toast(`Lượt của ${names[o]}`); return; }
+      hostInput(dir, o); return;
+    }
+    if (o !== me) { toast(`Chờ ${names[o]} bấm`); return; }
+    if (net.mode === 'host') { hostInput(dir, me); return; }
+    // guest: show the press instantly, the host confirms it
+    const i = G.idx, ok = dir === G.seq[i];
+    optimistic.add(i); flash(dir, 220);
+    if (ok) G.idx = i + 1;
+    if (!ok || G.idx >= G.seq.length) { G.phase = 'wait'; lock(true); renderActive(); renderDots(); }
+    else renderTurn();
+    setProgress(G.idx, G.seq.length, 'đã bấm');
+    send({ t: 'input', dir, idx: i });
+  }
+
+  // ---------------- Networking (PeerJS / WebRTC) ----------------
+  function genCode() {
+    const a = new Uint32Array(CODE_LEN); crypto.getRandomValues(a);
+    return Array.from(a, x => CODE_ABC[x % CODE_ABC.length]).join('');
+  }
+  const normCode = s => (s || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, CODE_LEN);
+  const myName = () => $('nameInput').value.trim().slice(0, 12);
+  const roomUrl = () => location.origin + location.pathname + '#' + net.code;
+  function netReady() {
+    if (typeof Peer === 'undefined') { lobbyMsg('Không tải được thư viện kết nối. Kiểm tra mạng rồi tải lại trang.', true); return false; }
+    return true;
+  }
+  function errText(err) {
+    switch (err && err.type) {
+      case 'peer-unavailable': return 'Không tìm thấy phòng này. Kiểm tra lại mã.';
+      case 'network': case 'server-error': case 'socket-error': case 'socket-closed':
+        return 'Không kết nối được máy chủ ghép phòng. Thử lại sau ít phút.';
+      case 'browser-incompatible': return 'Trình duyệt này không hỗ trợ chơi online.';
+      default: return 'Lỗi kết nối' + (err && err.type ? ` (${err.type})` : '') + '. Thử lại nhé.';
+    }
+  }
+
+  function teardown() {
+    stopPing(); hostGen++; runId++;
+    const { peer, conn } = net;
+    net = blankNet();
+    if (conn) { try { conn.close(); } catch (e) {} }
+    if (peer) { try { peer.destroy(); } catch (e) {} }
+  }
+  function leave() {
+    const { peer, conn } = net;
+    if (conn && conn.open) { try { conn.send({ t: 'bye' }); } catch (e) {} }
+    stopPing(); hostGen++; runId++;
+    net = blankNet();
+    setTimeout(() => {           // let the goodbye flush first
+      try { conn && conn.close(); } catch (e) {}
+      try { peer && peer.destroy(); } catch (e) {}
+    }, 250);
+    G = blankGame();
+    show('lobby'); setLobbyBusy(false); lobbyMsg('');
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  }
+
+  function createRoom(retries = 0) {
+    if (!netReady()) return;
+    audio(); teardown();
+    const code = genCode();
+    const peer = new Peer(PEER_PREFIX + code, { debug: 0 });
+    net = blankNet(); net.mode = 'host'; net.peer = peer; net.code = code;
+    me = 0; names = [myName() || 'Người 1', ''];
+    setLobbyBusy(true); lobbyMsg('Đang tạo phòng…');
+    peer.on('open', () => {
+      if (net.peer !== peer) return;
+      setLobbyBusy(false); lobbyMsg(''); enterWait();
+    });
+    peer.on('connection', c => {
+      if (net.peer !== peer) return;
+      if (net.conn) {          // room is full
+        c.on('open', () => { try { c.send({ t: 'full' }); } catch (e) {} setTimeout(() => c.close(), 500); });
+        return;
+      }
+      attachConn(c);
+    });
+    peer.on('disconnected', () => {   // lost the matchmaking server: reconnect so others can still join
+      setTimeout(() => { if (net.peer === peer && !peer.destroyed && peer.disconnected) peer.reconnect(); }, 1500);
+    });
+    peer.on('error', err => {
+      if (net.peer !== peer) return;
+      if (err.type === 'unavailable-id' && retries < 3) { createRoom(retries + 1); return; }
+      if (err.type === 'peer-unavailable' || net.conn) return;
+      teardown(); show('lobby'); setLobbyBusy(false); lobbyMsg(errText(err), true);
+    });
+  }
+  function enterWait() {
+    $('roomCode').textContent = net.code;
+    $('linkBox').textContent = roomUrl();
+    show('wait');
+  }
+
+  function joinRoom() {
+    if (!netReady()) return;
+    const code = normCode($('codeInput').value);
+    if (code.length !== CODE_LEN) { lobbyMsg('Mã phòng gồm 5 ký tự.', true); $('codeInput').focus(); return; }
+    audio(); teardown();
+    const peer = new Peer({ debug: 0 });
+    net = blankNet(); net.mode = 'guest'; net.peer = peer; net.code = code;
+    me = 1;
+    setLobbyBusy(true); lobbyMsg(`Đang vào phòng ${code}…`);
+    const fail = text => {
+      if (net.peer !== peer) return;
+      teardown(); show('lobby'); setLobbyBusy(false); lobbyMsg(text, true);
+    };
+    setTimeout(() => { if (net.peer === peer && !net.welcomed) fail('Không vào được phòng. Kiểm tra mã hoặc thử lại.'); }, 15000);
+    peer.on('open', () => {
+      if (net.peer !== peer) return;
+      attachConn(peer.connect(PEER_PREFIX + code, { reliable: true, serialization: 'json' }));
+    });
+    peer.on('error', err => {
+      if (net.peer !== peer || net.welcomed) return;   // after joining, only the data link matters
+      fail(errText(err));
+    });
+  }
+
+  function attachConn(c) {
+    net.conn = c;
+    c.on('open', () => {
+      if (net.conn !== c) return;
+      net.lastSeen = Date.now(); startPing();
+      if (net.mode === 'guest') send({ t: 'hello', name: myName() || 'Người 2', best });
+    });
+    c.on('data', d => {
+      if (net.conn !== c || !d || typeof d !== 'object') return;
+      net.lastSeen = Date.now();
+      onData(d);
+    });
+    c.on('close', () => lost(c));
+    c.on('error', () => lost(c));
+  }
+
+  function onData(d) {
+    if (d.t === 'ping') return;
+    if (d.t === 'bye') { lost(net.conn, true); return; }
+    if (net.mode === 'host') {
+      if (d.t === 'hello') {
+        names[1] = String(d.name || 'Người 2').slice(0, 12);
+        const gb = parseInt(d.best, 10) || 0;
+        if (gb > best) { best = gb; store.set('simon_coop_best', String(best)); }
+        resetGame(); show('game');
+        send({ t: 'welcome', names, cfg, best });
+        toast(`${names[1]} đã vào phòng`);
+      } else if (d.t === 'input' && DIRS.includes(d.dir)) {
+        hostInput(d.dir, 1, d.idx);
+      }
+    } else if (net.mode === 'guest') {
+      if (d.t === 'welcome') {
+        net.welcomed = true;
+        names = [String(d.names[0] || 'Người 1').slice(0, 12), String(d.names[1] || 'Người 2').slice(0, 12)];
+        cfg = d.cfg;
+        if (d.best > best) { best = d.best; store.set('simon_coop_best', String(best)); }
+        resetGame(); show('game'); setLobbyBusy(false); lobbyMsg('');
+        history.replaceState(null, '', location.pathname + location.search + '#' + net.code);
+      } else if (d.t === 'full') {
+        teardown(); show('lobby'); setLobbyBusy(false); lobbyMsg('Phòng đã đủ 2 người.', true);
+      } else if (EVENTS.has(d.t)) {
+        apply(d);
+      }
+    }
+  }
+
+  function lost(c, bye = false) {
+    if (!c || c !== net.conn) return;
+    net.conn = null; stopPing();
+    try { c.close(); } catch (e) {}
+    if (net.mode === 'host') {
+      const n = names[1];
+      names[1] = ''; resetGame();
+      if (net.peer && !net.peer.destroyed) { enterWait(); toast(`${n || 'Bạn bè'} đã rời phòng`); }
+      else { teardown(); show('lobby'); }
+    } else if (net.mode === 'guest') {
+      const code = net.code, was = net.welcomed;
+      teardown(); show('lobby'); setLobbyBusy(false);
+      $('codeInput').value = code;
+      lobbyMsg(bye ? 'Chủ phòng đã đóng phòng.'
+        : was ? `Mất kết nối với phòng ${code}. Bấm Vào để thử lại.`
+        : 'Không vào được phòng. Thử lại nhé.', true);
+    }
+  }
+
+  function startPing() {
+    stopPing();
+    net.ping = setInterval(() => {
+      send({ t: 'ping' });
+      if (Date.now() - net.lastSeen > 15000) lost(net.conn);
+    }, 3000);
+  }
+  function stopPing() { if (net.ping) clearInterval(net.ping); net.ping = null; }
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && net.conn) { net.lastSeen = Date.now(); send({ t: 'ping' }); }
+  });
+  window.addEventListener('pagehide', () => { if (net.conn && net.conn.open) { try { net.conn.send({ t: 'bye' }); } catch (e) {} } });
+
+  function startLocal() {
+    teardown(); audio();
+    net.mode = 'local'; me = 0;
+    names = [myName() || 'Người 1', 'Người 2'];
+    resetGame(); show('game');
+  }
+
+  // ---------------- Share ----------------
+  function copyText(t) {
+    const fallback = () => {
+      const ta = document.createElement('textarea');
+      ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      let ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+      ta.remove(); return ok;
+    };
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(t).then(() => true, fallback);
+    return Promise.resolve(fallback());
+  }
+  async function shareLink() {
+    const url = roomUrl();
+    if (navigator.share) {
+      try { await navigator.share({ title: 'Simon Co-op', text: `Vào chơi Simon Co-op với mình nhé! Mã phòng: ${net.code}`, url }); return; }
+      catch (e) { if (e && e.name === 'AbortError') return; }
+    }
+    const ok = await copyText(url);
+    toast(ok ? 'Đã sao chép link mời' : 'Không sao chép được, hãy gửi mã phòng');
+  }
+
+  // ---------------- Wiring ----------------
+  document.addEventListener('pointerdown', () => audio(), { once: true, capture: true });
+
+  $('nameInput').value = store.get('simon_name') || '';
+  $('nameInput').addEventListener('input', () => store.set('simon_name', $('nameInput').value.trim()));
+  $('codeInput').addEventListener('input', e => { const v = normCode(e.target.value); if (v !== e.target.value) e.target.value = v; });
+  $('createBtn').addEventListener('click', () => createRoom());
+  $('joinBtn').addEventListener('click', joinRoom);
+  $('localBtn').addEventListener('click', startLocal);
+  $('cancelBtn').addEventListener('click', leave);
+  $('leaveBtn').addEventListener('click', e => { e.currentTarget.blur(); leave(); });
+  $('shareBtn').addEventListener('click', shareLink);
+  $('linkBox').addEventListener('click', () => copyText(roomUrl()).then(ok => toast(ok ? 'Đã sao chép link mời' : 'Không sao chép được')));
+  startBtn.addEventListener('click', () => { startBtn.blur(); hostStart(); });
+
+  $('settingsBtn').addEventListener('click', e => { e.currentTarget.blur(); openSheet(); });
+  $('doneBtn').addEventListener('click', closeSheet);
+  $('backdrop').addEventListener('click', closeSheet);
+  document.querySelectorAll('#speedSeg button').forEach(b => b.addEventListener('click', () => changeCfg({ speed: parseFloat(b.dataset.mul) })));
+  document.querySelectorAll('#modeSeg button').forEach(b => b.addEventListener('click', () => changeCfg({ mode: b.dataset.mode })));
+  $('strict').addEventListener('change', e => { e.target.blur(); changeCfg({ strict: e.target.checked }); });
+  soundEl.addEventListener('change', () => { store.set('simon_sound', soundEl.checked ? '1' : '0'); soundEl.blur(); });
+
+  Object.entries(pads).forEach(([dir, p]) => {
+    p.addEventListener('pointerdown', e => { e.preventDefault(); pressLocal(dir); });
+  });
+
+  document.addEventListener('keydown', e => {
+    const t = e.target;
+    if (t && t.tagName === 'INPUT' && t.type === 'text') {
+      if (e.key === 'Enter') { e.preventDefault(); if (t.id === 'codeInput') joinRoom(); else t.blur(); }
+      return;
+    }
+    if (e.key === 'Escape') { closeSheet(); return; }
+    if (screen !== 'game') return;
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    const dir = ARROWS[k] || WASD[k];
+    if (dir) {
+      e.preventDefault();
+      if (!e.repeat) pressLocal(dir, net.mode === 'local' ? (ARROWS[k] ? 1 : 0) : null);
+    } else if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      if (isHostLike() && (G.phase === 'idle' || G.phase === 'over')) hostStart();
+    } else if (e.key === '1' || e.key === '2' || e.key === '3') {
+      changeCfg({ speed: { '1': 1, '2': 1.5, '3': 2 }[e.key] });
+    }
+  });
+
+  // Invite link: https://…/#ABCDE
+  const invited = normCode(decodeURIComponent(location.hash.slice(1)));
+  if (invited.length === CODE_LEN) {
+    $('codeInput').value = invited;
+    $('joinBtn').classList.remove('ghost');
+    $('createBtn').classList.add('ghost');
+    lobbyMsg(`Bạn được mời vào phòng ${invited}. Nhập tên rồi bấm Vào.`);
+  }
+  if (typeof Peer === 'undefined') lobbyMsg('Không tải được thư viện kết nối. Vẫn có thể chơi chung một máy.', true);
+  renderSettings();
+  show('lobby');
+})();
+</script>
+</body>
+</html>
